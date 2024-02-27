@@ -1,0 +1,12 @@
+html{
+    background-color: #8AB5AB ;
+}
+
+h2, h3{
+    background-color: white;
+    padding: 2pt;
+}
+
+label, body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

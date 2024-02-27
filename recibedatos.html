@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<script>
+		function getUrlVars() { //SOLO CON GET//
+			var vars = {};
+			//AGARRA LA URL//
+			var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+				function (m, key, value) {
+					if (vars[key]) {
+						vars[key].push(value);
+					} else {
+						vars[key] = [value];
+					}
+				});
+			console.log(vars);
+			return vars;
+		}
+
+		var nombre = getUrlVars()["fname"];
+		var apellido = getUrlVars()["lname"];
+		var colorp = getUrlVars()["color"];
+		var tallap = getUrlVars()["talla"];
+		var empaque = getUrlVars()["empaque"];
+		var nota = getUrlVars()["nota"];
+		var prueba = getUrlVars()["prueba"];
+	</script>
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+</head>
+
+<body>
+
+	<h2>Pedido Recibido</h2>
+
+	<h3> Cliente</h3>
+	<p id="Nombre"></p>
+
+	<h3>Pedido</h3>
+	<p id="detalle"></p>
+
+	<!--<div id="extras"></div>-->
+
+
+	<script>
+		var pnom = document.getElementById("Nombre");
+		pnom.innerHTML = "<i>" + nombre + " " + "<em>" + apellido + "</em></i>";
+
+		var det = document.getElementById("detalle");
+		var talla = "";
+		var color = "";
+
+		switch (colorp[0]) {
+			case "rojo":
+				color += "Rojo";
+				break;
+			case "azul":
+				color += "Azul";
+				break;
+			case "otro":
+				color += "Otro color";
+				break;
+		}
+
+		switch (tallap[0]) {
+			case "ch":
+				talla += "Pequeño";
+				break;
+			case "m":
+				talla += "Mediano";
+				break;
+			case "g":
+				talla += "Grande";
+				break;
+			case "xg":
+				talla += "Extra Grande";
+				break;
+		}
+		det.innerHTML += "<b>Color:</b> " + color + "<br><b>Talla:</b> " + talla +
+			"<br><b>Detalles de personalización:</b>";
+
+
+		const lista = document.createElement("ul");
+
+		if (empaque) {
+			empaque = empaque.map(decodeURIComponent);
+
+			for (i = 0; i < empaque.length; i++) {
+				const elemento = document.createElement("li");
+				let txt = null;
+				switch (empaque[i]) {
+					case "caja":
+						txt = document.createTextNode("Empaque de cartón reciclado");
+						break;
+					case "papel":
+						txt = document.createTextNode("Moño de papel");
+						break;
+					case "plastico":
+						txt = document.createTextNode("Agregar confeti dentro");
+						break;
+				}
+				if (txt) {
+					elemento.appendChild(txt);
+					lista.appendChild(elemento);
+				}
+			}
+			det.appendChild(lista);
+		} else {
+			det.innerHTML += "<ul><li>No aplica</li></ul>";
+		}
+
+		if (nota && nota.length != 0 && nota[0]) {
+			det.innerHTML += "<br><b>¿Incluye promoción para compartir?:</b> SI";
+		} else {
+			det.innerHTML += "<br><b>¿Incluye promoción para compartir?:</b> NO";
+		}
+
+		if (prueba && prueba.length != 0 && prueba[0]) {
+			det.innerHTML += "<br><b>¿Incluye muestras gratis?:</b> SI";
+		} else {
+			det.innerHTML += "<br><b>¿Incluye muestras gratis?:</b> NO";
+		}
+
+	</script>
+
+
+
+</body>
+
+</html>
